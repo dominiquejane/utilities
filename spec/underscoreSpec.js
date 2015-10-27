@@ -30,6 +30,10 @@ describe("last", function() {
   });
 });
 
+
+// Call iterator(value, key, collection) for each element of collection.
+  // Accepts both arrays and objects.
+
 describe("each", function() {
   it("should provide value and iteration count", function() {
     var letters = ['a', 'b', 'c'];

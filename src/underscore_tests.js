@@ -17,14 +17,14 @@ var _ = { };
   // return just the first element.
   _.first = function(array, n) {
     var narr = [];
-    if (n === undefined) {
+    if (n === undefined) { //if n is undefined, return first element.
       return array[0];
     }
     else {
-      if (n > array.length) {
+      if (n > array.length) { //if n is greater than array length, change n to equal array length
       n = array.length;
     }
-      for (var i = 0; i < n; i++ ) {
+      for (var i = 0; i < n; i++ ) { //push each object up to n objects into an empty array and then return the array
         narr.push(array[i]);
       }
     return narr;
@@ -36,18 +36,18 @@ var _ = { };
   // last element.
   _.last = function(array, n) {
     var narr = [];
-    if (n === undefined) {
+    if (n === undefined) { //if n is undefined return the last element
       return array[array.length-1];
     }
-    else if( n === 0 ) {
+    else if( n === 0 ) { //if n equals zero return an empty array, narr (curently empty at this point in the function)
       return narr;
     }
     else {
-      if (n >= array.length) {
+      if (n > array.length) { //if n is greater than or equal to the array length change it to equal the array length so that it doesn't grab undefined values in the below code
       n = array.length;
     }
-      for (var i = array.length-1; i >(array.length - 1 -n); i-- ) {
-        narr.unshift(array[i]);
+      for (var i = array.length-1; i >(array.length - 1 -n); i-- ) { //start the loop from the end of the array. Limit i so that it only goes n elements down the array.
+        narr.unshift(array[i]);//insert elements into the beginning of the array so that the order of elements is in the same order that they were in the original array
       }
     return narr;
 
@@ -57,6 +57,9 @@ var _ = { };
   // Call iterator(value, key, collection) for each element of collection.
   // Accepts both arrays and objects.
   _.each = function(collection, iterator) {
+    for (var key in collection) {
+      iterator(collection[key], key, collection);
+    }
   };
 
   // Returns the index at which value can be found in the array, or -1 if value
