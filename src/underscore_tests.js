@@ -65,14 +65,48 @@ var _ = { };
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
   _.indexOf = function(array, target){
+    var isThere = false;
+    var x;
+    for (var i = 0; i < array.length; i++) {
+      if (array[i] === target) {
+        isThere = true;
+        x = i;
+        break;
+      }
+    }
+    if (isThere) {
+      return x;
+    }
+    else {
+      return -1;
+    }
   };
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, iterator) {
+    var pass = [];
+    var it;
+    for (var i = 0; i < collection.length; i++) {
+      it = iterator(collection[i]);
+      if (it === true) {
+        pass.push(collection[i]);
+      }
+    }
+    return pass;
   };
+
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, iterator) {
+    var rej = [];
+    var it;
+    for (var i = 0; i < collection.length; i++) {
+      it = iterator(collection[i]);
+      if (it === false) {
+        rej.push(collection[i]);
+      }
+    }
+    return rej;
   };
 
   // Produce a duplicate-free version of the array.
