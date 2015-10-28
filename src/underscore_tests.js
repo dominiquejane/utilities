@@ -111,36 +111,111 @@ var _ = { };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    for (var i = 0; i < array.length; i++) {
+      for (var k = 0; k < array.length; k++) {
+        if (array[i] === array[k] && i !== k) {
+          array.splice(k,1);
+        }
+      }
+    }
+    return array;
   };
 
 
   // Return the results of applying an iterator to each element.
   _.map = function(array, iterator) {
+    var x;
+    var newArray=[];
+    for (var i = 0; i < array.length; i++) {
+      x = iterator(array[i]);
+      newArray.push(x);
+    }
+    return newArray;
   };
 
   // Takes an array of objects and returns and array of the values of
   // a certain property in it. E.g. take an array of people and return
   // an array of just their ages
   _.pluck = function(array, propertyName) {
+    var propArray = [];
+    for (var i = 0; i < array.length; i++) {
+      propArray.push(array[i][propertyName]);
+    }
+    return propArray;
   };
 
   // Calls the method named by methodName on each value in the list.
+  //test if methodName is a method.
+  //if it is a method then invoke it using apply
   _.invoke = function(list, methodName, args) {
+    var result = []; //push each result of the methodName function into a new array and return it at the end
+     for(var i =0; i < list.length; i++) {
+      if (typeof methodName === 'function') { //check to see if the methodName is a function or a string
+
+        result.push(methodName.apply(list[i], args)); //if it is a valid function then use apply to bind the function to the list
+      }
+
+    else {
+        result.push(list[i][methodName](args)); //if it is not a valid function then use [] to "convert" methodName to a recognizable function
+      }
+    }
+    return result;
   };
+
+
 
   // Reduces an array or object to a single value by repetitively calling
   // iterator(previousValue, item) for each item. previousValue should be
   // the return value of the previous iterator call.
   _.reduce = function(collection, iterator, initialValue) {
-  };
+    if (initialValue !== undefined) {
+      collection.unshift(initialValue);
+    }
+    var latest;
+    do {
+     latest = iterator(collection[0], collection[1]);
+     collection.splice(0,2);
+     collection.unshift(latest);
+    }
+    while (collection.length >= 2);
+
+    return collection[0];
+    };
 
   // Determine if the array or object contains a given value (using `===`).
   _.contains = function(collection, target) {
+    if (Array.isArray(collection) === true) {
+      for (var i = 0; i < collection.length; i++) {
+         if (target === collection[i]) {
+            return true;
+          }
+      }
+    }
+    else {
+      for (var k in collection) {
+        if (target === collection[k]) {
+          return true;
+          }
+        }
+      }
+
+
+    return false;
   };
 
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
+    for (var i = 0; i < collection.length; i++) {
+      if (!iterator) {
+        return true;
+      }
+      if (iterator(collection[i]) != true) {
+        return false;
+      }
+
+    }
+    return true;
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
