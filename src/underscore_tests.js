@@ -221,6 +221,35 @@ var _ = { };
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
+    if(collection[0] === undefined) { //empty array
+      return false;
+    }
+    if (!iterator) {
+        var defaultFunction = function(x) { //no iterator provided
+          for (var y = 0; y < x.length; y++) {
+            if (typeof x[y] === 'string' && x[y] != false) {
+                return true;
+             }
+          }
+          for (var i = 0; i < x.length; i++) {
+            if (x[i] == true || x[i] === true) { //find any true values
+              return true;
+            }
+          }
+          for (var k = 0; k < x.length; k++) { //if no true values found and any of them is a false value, then return false
+           if (x[k] === false) {
+              return false;
+            }
+          }
+        };
+      return defaultFunction(collection);
+    }
+    for (var i = 0; i < collection.length; i++) {
+      if (iterator(collection[i]) == true || iterator(collection[i]) === true) {
+        return true;
+      }
+    }
+    return false;
   };
 
 
