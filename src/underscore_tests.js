@@ -227,7 +227,7 @@ var _ = { };
     if (!iterator) {
         var defaultFunction = function(x) { //no iterator provided
           for (var y = 0; y < x.length; y++) {
-            if (typeof x[y] === 'string' && x[y] != false) {
+            if (typeof x[y] === 'string' && x[y] != false) { // test for string and make sure none of them are 'false'.
                 return true;
              }
           }
@@ -252,6 +252,25 @@ var _ = { };
     return false;
   };
 
+  //JARED'S SOLUTION:
+  //test for iterator, if not, let it be a simple function that returns the value, whether it be falsey or truthy
+  // iterator = iterator || function (i ) {
+  //   return i;
+  // }
+
+  //test if collection exists, if it doesn't return false
+  // if (!collection) {
+  //   return false;
+  // }
+
+  //test if each item is truthy, if any item is truthy, then return true
+  // for (var i = 0; i < collection.length; i++) {
+  //   if (iterator(collection[i])) {
+  //     return true
+  //   }
+  // }
+  // }
+
 
   /**
    * OBJECTS
@@ -262,8 +281,15 @@ var _ = { };
 
   // Extend a given object with all the properties of the passed in
   // object(s).
-  _.extend = function(obj) {
+  _.extend = function(extObj) {
+   for (var i = 0; i < arguments.length; i++) { //arguments is a built-in array into every function that holds all passed in arguments.
+      for (var prop in arguments[i]) {
+        extObj[prop] = arguments[i][prop];
+      }
+    }
+    return extObj;
   };
+
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
